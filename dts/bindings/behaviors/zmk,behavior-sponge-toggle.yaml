@@ -1,8 +1,0 @@
-# Copyright (c) 2025 The ZMK Contributors
-# SPDX-License-Identifier: MIT
-
-description: Sponge Toggle Behavior - toggles sponge (mocking) mode on/off
-
-compatible: "zmk,behavior-sponge-toggle"
-
-include: zero_param.yaml
