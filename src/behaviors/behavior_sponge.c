@@ -29,7 +29,7 @@ static int on_sponge_key_binding_pressed(struct zmk_behavior_binding *binding,
 
     struct zmk_behavior_binding shift_binding = {
         .behavior_dev = "KEY_PRESS",
-        .param1 = ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_LEFT_SHIFT),
+        .param1 = ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_LEFTSHIFT),
     };
 
     struct zmk_behavior_binding key_binding = {
@@ -49,7 +49,7 @@ static int on_sponge_key_binding_released(struct zmk_behavior_binding *binding,
                                           struct zmk_behavior_binding_event event) {
     struct zmk_behavior_binding shift_binding = {
         .behavior_dev = "KEY_PRESS",
-        .param1 = ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_LEFT_SHIFT),
+        .param1 = ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_LEFTSHIFT),
     };
 
     struct zmk_behavior_binding key_binding = {
