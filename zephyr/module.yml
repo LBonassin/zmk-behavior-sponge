@@ -2,10 +2,3 @@ name: zmk-behavior-sponge
 build:
   cmake: .
   kconfig: Kconfig
-  settings:
-    dts:
-      boards: []
-      shield: []
-      extra_includes:
-        - dts/behaviors
-        - dts/bindings
