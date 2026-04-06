@@ -12,8 +12,8 @@
 
 #include <drivers/behavior.h>
 #include <zmk/behavior.h>
-#include <zmk/event_manager.h>
-#include <zmk/events/keycode_state_changed.h>
+#include <zmk/hid.h>
+#include <zmk/keymap.h>
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
@@ -23,31 +23,48 @@ static bool shift_pressed = false;
 
 static int on_sponge_key_binding_pressed(struct zmk_behavior_binding *binding,
                                          struct zmk_behavior_binding_event event) {
-    uint32_t keycode = binding->param1;
-
     uint32_t rand_val;
     sys_rand_get(&rand_val, sizeof(rand_val));
     shift_pressed = (rand_val & 1);
 
-    if (shift_pressed) {
-        raise_zmk_keycode_state_changed_from_encoded(LSHIFT, true, event.timestamp);
-    }
+    struct zmk_behavior_binding shift_binding = {
+        .behavior_dev = "KEY_PRESS",
+        .param1 = ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_LEFT_SHIFT),
+    };
 
-    return raise_zmk_keycode_state_changed_from_encoded(keycode, true, event.timestamp);
+    struct zmk_behavior_binding key_binding = {
+        .behavior_dev = "KEY_PRESS",
+        .param1 = binding->param1,
+    };
+
+    if (shift_pressed) {
+        zmk_behavior_queue_add(&event.position, shift_binding, true, 0);
+    }
+    zmk_behavior_queue_add(&event.position, key_binding, true, 0);
+
+    return ZMK_BEHAVIOR_OPAQUE;
 }
 
 static int on_sponge_key_binding_released(struct zmk_behavior_binding *binding,
                                           struct zmk_behavior_binding_event event) {
-    uint32_t keycode = binding->param1;
+    struct zmk_behavior_binding shift_binding = {
+        .behavior_dev = "KEY_PRESS",
+        .param1 = ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_LEFT_SHIFT),
+    };
 
-    int ret = raise_zmk_keycode_state_changed_from_encoded(keycode, false, event.timestamp);
+    struct zmk_behavior_binding key_binding = {
+        .behavior_dev = "KEY_PRESS",
+        .param1 = binding->param1,
+    };
+
+    zmk_behavior_queue_add(&event.position, key_binding, false, 0);
 
     if (shift_pressed) {
-        raise_zmk_keycode_state_changed_from_encoded(LSHIFT, false, event.timestamp);
+        zmk_behavior_queue_add(&event.position, shift_binding, false, 0);
         shift_pressed = false;
     }
 
-    return ret;
+    return ZMK_BEHAVIOR_OPAQUE;
 }
 
 static const struct behavior_driver_api sponge_key_driver_api = {
