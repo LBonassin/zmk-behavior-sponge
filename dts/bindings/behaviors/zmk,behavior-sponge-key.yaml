@@ -1,0 +1,8 @@
+# Copyright (c) 2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: Sponge Key Behavior - outputs a keycode with random casing when sponge mode is active
+
+compatible: "zmk,behavior-sponge-key"
+
+include: one_param.yaml

@@ -1,0 +1,36 @@
+/*
+ * Copyright (c) 2025 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Include this file in your keymap to get the pre-defined &sponge and
+ * &sk_sponge behaviors without defining them yourself.
+ *
+ * Usage: #include <behaviors/sponge.dtsi>
+ */
+
+/ {
+    behaviors {
+        /*
+         * &sponge — toggle sponge (mocking) mode on/off.
+         *
+         * Example keymap binding:  &sponge
+         */
+        sponge: sponge_toggle {
+            compatible = "zmk,behavior-sponge-toggle";
+            #binding-cells = <0>;
+        };
+
+        /*
+         * &sk_sponge — use in place of &kp for alpha keys.
+         * When sponge mode is off, acts as a normal keypress.
+         * When sponge mode is on, randomly uppercases each keypress.
+         *
+         * Example keymap binding:  &sk_sponge A
+         */
+        sk_sponge: sponge_key {
+            compatible = "zmk,behavior-sponge-key";
+            #binding-cells = <1>;
+        };
+    };
+};

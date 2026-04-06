@@ -1,0 +1,11 @@
+# Copyright (c) 2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+config ZMK_BEHAVIOR_SPONGE
+    bool "Sponge (mocking text) behavior"
+    default y if DT_HAS_ZMK_BEHAVIOR_SPONGE_TOGGLE_ENABLED || DT_HAS_ZMK_BEHAVIOR_SPONGE_KEY_ENABLED
+    help
+      Enables the sponge behavior, which randomly capitalizes alpha
+      keypresses to produce "mOcKiNg SpOnGeBoB" style text.
+      Toggle on/off at runtime with &sponge; use &sk_sponge <KEY>
+      in place of &kp <KEY> for all alpha keys you want affected.
